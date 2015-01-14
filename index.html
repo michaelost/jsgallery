@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style>
+img{
+	height: 100px;	overflow: hidden;	margin:10px;
+}
+#next,#prev{
+	position: absolute;	top:30%;	color:white;	background-color: rgba(0,0,0,0.4);
+	cursor: pointer;	font-size: 24px;	font-family: Georgia, 'Times New Roman', Times, serif;
+	padding: 10px 20px 10px 20px;	border-radius: 10px;	display: block;
+	text-shadow: 1px 1px 2px black, 0 0 1em white; 
+	-moz-user-select: -moz-none;
+-o-user-select: none;
+-khtml-user-select: none;
+-webkit-user-select: none;
+user-select: none;
+}
+#prev{left:30%; }
+#next{right:30%;}
+#next:hover,#prev:hover{text-shadow: 1px 1px 2px white, 0 0 1em white;
+transition: 0.5s; background-color: rgba(0,0,0,0.8);}
+
+#images{    position: relative; width:1000px; 	margin: 0 auto; }
+#images div{	position: relative;	display: inline-block; 	height: 100px; }
+
+.bigBlock{ 	display: block; width: 100%; text-align: center; height: 400px;}
+.bigBlock img{ 	width:auto ; 	height:350px ; }
+
+</style>
+<script>
+   var gallery ={
+	arr : [
+	"https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcR_w00n80TJ7QoDtCmc5sE02DqfajpoM9rqNAjSU0hUabtDp5J-",
+	"https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcS5kcfU_YitUA2UMw3vNVPZh9_DZWrZYIBMOjywT-SuOJwX7HnT",
+	"https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQ_OPLkXVHCqwp-wBXIl9en_ir_-HNScqgNYukoKl00NXbVkC14",
+	"https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSWQdCZMxNaWZkr8HeTVsU7L4AtDkEh_uHH9m36awq5KJT1ijxN",
+	"https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcREAW5tT0lieJ4R5pk44Qoljl0xyNhRj4Mz6rWydsBMffrxAhiPxw",
+	"https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSkf1YzTQ3auicLaj371G8I0nnQoHLHKaI66M6TDOgEc6822wzU",
+	"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaUagVveaqqWy1_mcm7UN2bfRuawsir0AzFEKMoQlDyiQPJcv_ow"
+	],
+	current_img: 2,
+	 next: function(){
+	 	if(this.current_img  > this.arr.length) this.current_img=0;
+	 									else this.current_img++;
+	 	document.getElementsByTagName("img")[0].src=this.arr[this.current_img];
+	 },
+	 previous: function(){
+		if(this.current_img  == 0) this.current_img=this.arr.length;
+			else this.current_img--;
+	 	document.getElementsByTagName("img")[0].src=this.arr[this.current_img];
+	 },
+	 slide: function(){
+
+	 	 	 var i =	Math.floor((Math.random() * this.arr.length) + 0),
+	 	 	 current = document.getElementsByTagName("img")[0];
+     	 		while(this.arr[i] == current.getAttribute("src")){
+     	 			i =	Math.floor((Math.random() * this.arr.length) + 0);
+     	 			this.current_img = i;
+     	 		}
+     	 		current.setAttribute("src",this.arr[i]);
+	 		 },
+	 createList : function(){ 
+	 		var	container = document.getElementById("images");
+
+	 		 var bigim =document.createElement("img");
+	 		     bigim.setAttribute('class','big')
+	 		     bigim.setAttribute('src',this.arr[1])
+	 		     var bigBlock = document.createElement("div");
+	 		     	 bigBlock.setAttribute('class','bigBlock');
+	 				container.appendChild(bigBlock);
+	 				bigBlock.appendChild(bigim);
+	 		      
+					for(i in this.arr){
+					var im = document.createElement("img");
+					im.src=this.arr[i];
+			
+					var imWrap = document.createElement("div");
+					container.appendChild(imWrap);
+					imWrap.appendChild(im); 
+					 }
+		    		}
+}
+	window.onload = function(){
+		gallery.createList();
+		document.getElementsByTagName('img')[0].onclick = function(){
+		gallery.slide();
+		};
+		document.getElementById("prev").onclick = function(){
+			gallery.previous();
+		}
+		document.getElementById("next").onclick = function(){
+			gallery.next();
+		}
+
+	}	
+
+</script>
+<body>
+	<div id="images">
+	</div>
+	<div id="next">next</div>
+	<div id="prev">prev</div>
+</body>
+</html>
